@@ -12,6 +12,4 @@ class ArticlelistscraperSpider(scrapy.Spider):
 
     def parse(self, response):
         full_content = response.body.decode(response.encoding)
-        print(full_content)
-        print(full_content)
         yield {"full_content": full_content}

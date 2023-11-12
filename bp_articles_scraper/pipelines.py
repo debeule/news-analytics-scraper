@@ -2,7 +2,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
-from bp_articles_scraper.models import Article
+from bp_articles_scraper.models.article import Article
 
 Base = declarative_base()
 
