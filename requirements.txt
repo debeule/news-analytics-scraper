@@ -44,3 +44,4 @@ w3lib==2.1.2
 zope.interface==6.1
 python-dotenv==1.0.0
 mysqlclient==2.2.0
+selenium==4.15.2
