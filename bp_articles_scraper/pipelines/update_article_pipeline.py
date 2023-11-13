@@ -6,7 +6,8 @@ from bp_articles_scraper.models.article import Article
 
 Base = declarative_base()
 
-class DatabasePipeline:
+
+class UpdateArticlePipeline:
     def __init__(self, database_url):
         self.engine = create_engine(database_url)
         self.Session = sessionmaker(bind=self.engine)
@@ -22,17 +23,22 @@ class DatabasePipeline:
         pass
 
     def process_item(self, item, spider):
-        session = self.Session()
+        if spider.operation == 'update':
+            session = self.Session()
 
-        article = Article(full_content=item.get('full_content'))
+            article = Article(
+                main_title=item.get('main_title'),
+                url=item.get('url')
+            )
 
-        try:
-            session.add(article)
-            session.commit()
-        except Exception as e:
-            session.rollback()
-            raise
-        finally:
-            session.close()
+            try:
+                session.add(article)
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                raise
+            finally:
+                session.close()
+
 
         return item
