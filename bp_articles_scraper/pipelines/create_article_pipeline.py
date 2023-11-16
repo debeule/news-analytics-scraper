@@ -25,21 +25,31 @@ class CreateArticlePipeline:
     def process_item(self, item, spider):
         
         if spider.operation == 'create':
-            session = self.Session()
 
-            article = Article(
-                main_title=item.get('main_title'),
-                url=item.get('url')
-            )
+            with self.Session() as session:
 
-            try:
-                session.add(article)
-                session.commit()
-            except Exception as e:
-                session.rollback()
-                raise
-            finally:
+                existing_article = session.query(Article).filter_by(main_title=item.get('main_title')).first()
+
+                if existing_article is None:
+
+                    article = Article(
+                        main_title=item.get('main_title'),
+                        url=item.get('url'),
+                        created_at=item.get('created_at'),
+                    )
+
+                    try:
+                        session.add(article)
+                        session.commit()
+                        
+                    except Exception as e:
+                        session.rollback()
+                        raise
+                
                 session.close()
+
+                if existing_article is not None:
+                    return None
 
 
         return item

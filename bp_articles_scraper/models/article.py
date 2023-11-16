@@ -12,3 +12,4 @@ class Article(Base):
     main_title = Column(Text)
     full_content = Column(Text, nullable=True)
     url = Column(Text)
+    created_at = Column(DateTime(timezone=True))
