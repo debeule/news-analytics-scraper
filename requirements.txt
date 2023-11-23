@@ -47,3 +47,4 @@ mysqlclient==2.2.0
 selenium==4.15.2
 scrapy-selenium==0.0.7
 webdriver_manager==4.0.1
+beautifulsoup4==4.12.2

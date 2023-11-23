@@ -7,16 +7,15 @@ BOT_NAME = "bp_articles_scraper"
 
 SPIDER_MODULES = ["bp_articles_scraper.spiders"]
 NEWSPIDER_MODULE = "bp_articles_scraper.spiders"
+
 LOG_FILE = 'scrapy.log'
 
-ROBOTSTXT_OBEY = False
-
-REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 DOWNLOADER_MIDDLEWARES = {
     'bp_articles_scraper.middlewares.proxy_middleware.ProxyMiddleware': 100,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
     'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 200,
     'bp_articles_scraper.middlewares.selenium_middleware.SeleniumMiddleware': 300,
 }
