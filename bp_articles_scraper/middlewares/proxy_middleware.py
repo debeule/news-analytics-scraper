@@ -8,3 +8,4 @@ class ProxyMiddleware:
 
     def process_request(self, request, spider):
         request.meta['proxy'] = self.settings.get("PROXY_URL")
+        print(request.meta['proxy'])
