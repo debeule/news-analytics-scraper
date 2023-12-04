@@ -1,0 +1,8 @@
+{
+    "1": {
+        "name": "hln",
+        "url": "https://www.hln.be/net-binnen",
+        "iframe_selector": "sp_message_iframe_901952",
+        "button_selector": ".pg-accept-button"
+    }
+}

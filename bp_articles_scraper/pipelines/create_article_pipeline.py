@@ -33,11 +33,11 @@ class CreateArticlePipeline:
                 if existing_article is None:
 
                     article = Article(
-                        main_title=item.get('main_title'),
-                        url=item.get('url'),
-                        created_at=item.get('created_at'),
+                        main_title = item.get('main_title'),
+                        url = item.get('url'),
+                        organization_id = item.get('organization_id'),
                     )
-
+                    
                     try:
                         session.add(article)
                         session.commit()
