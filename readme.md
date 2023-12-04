@@ -1,9 +1,19 @@
-command:
-scrapy crawl ArticleListScraper -a scrape_url=  -a operation=
-scrapy crawl ArticleListScraper -a scrape_url=http://scrapingtester.matthias.debeule.nxtmediatech.eu/ -a operation=create
-scrapy crawl ArticleListScraper -a scrape_url=https://www.tutorialspoint.com/selenium/selenium_environment_setup.htm -a operation=create
+### scrapy test spider command
+scrapy crawl ArticleListScraper -a organization_id=1
+docker exec websitetest-scraper-1 curl -X POST -H "Content-Type: application/json" -d '{"organizationId": "1"}' http://localhost:5000/api/ArticleListScraper
 
-scrapy crawl ArticleListScraper -a scrape_url=https://www.hln.be/net-binnen -a operation=create
+### to install project dependencies & activate virtual environment:
+    python3 -m venv venv
 
-enable venv
-source XXXXXX/venv/Scripts/activate
+    pip install -r requirements.txt
+
+    source "source_dir"/venv/Scripts/activate
+
+### build & start docker image / container
+    docker build -t scraper .
+    docker run -it --rm scraper
+
+### setup scrapy - main_app networking
+    docker network create network_name (returns network_hash)
+    docker ps (for container id)
+    docker network connect network_hash container_id
