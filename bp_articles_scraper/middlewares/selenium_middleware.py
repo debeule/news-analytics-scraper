@@ -3,35 +3,32 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 import time
+from selenium.webdriver.chrome.options import Options
 
 class SeleniumMiddleware:
 
-    consent_cookies = None
-
     def __init__(self):
-        option = webdriver.ChromeOptions()
+        self.driver = None
 
-        option.add_argument("--headless")
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        #use tmp instead of /dev/shm (not ideal because meomory ==> disk)
+        options.add_argument('--disable-dev-shm-usage')
 
-        if SeleniumMiddleware.consent_cookies:
-            # Add consent cookies to the Chrome options
-            for cookie in SeleniumMiddleware.consent_cookies:
-                option.add_argument(f"--cookie={cookie['name']}={cookie['value']}")
-
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=option)
-
+        self.driver = webdriver.Chrome(executable_path=r'/usr/bin/chromedriver', options=options)
+        
 
     def process_request(self, request, spider):
-
         self.driver.get(request.url)
 
-        if SeleniumMiddleware.consent_cookies == None:
+        if self.driver.get_cookies() == 0:
 
             self.handle_iframe()
-          
+        
+        
+        self.driver.get(request.url)
             
         return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
 
@@ -50,7 +47,8 @@ class SeleniumMiddleware:
         )
 
         accept_button.click()
-        SeleniumMiddleware.consent_cookies = self.driver.get_cookies()
+        
+        time.sleep(5)
 
 
         # Switch back to the main frame
