@@ -1,6 +1,6 @@
 ### scrapy test spider command
-scrapy crawl ArticleListScraper -a organization_id=1
-docker exec websitetest-scraper-1 curl -X POST -H "Content-Type: application/json" -d '{"organizationId": "1"}' http://localhost:5000/api/ArticleListScraper
+scrapy crawl articles_list_scraper -a organization_id=1
+docker exec websitetest-scraper-1 curl -X POST -H "Content-Type: application/json" -d '{"organizationId": "1"}' http://localhost:5000/api/articles_list_scraper
 
 ### to install project dependencies & activate virtual environment:
     python3 -m venv venv

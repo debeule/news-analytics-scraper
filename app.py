@@ -9,7 +9,7 @@ setup()
 
 app = Flask(__name__)
 
-@app.route('/api/ArticleListScraper', methods=['POST'])
+@app.route('/api/articles_list_scraper', methods=['POST'])
 def start_spider():
     try:
         organization_id = int(request.json.get('organizationId'))
@@ -30,7 +30,7 @@ def run_spider(organization_id):
     })
 
     process = CrawlerRunner(settings)
-    d = process.crawl("ArticleListScraper", organization_id=organization_id)
+    d = process.crawl("articles_list_scraper", organization_id=organization_id)
 
     d.addBoth(lambda _: "done")
 
