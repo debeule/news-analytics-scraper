@@ -23,12 +23,9 @@ class SeleniumMiddleware:
     def process_request(self, request, spider):
         self.driver.get(request.url)
 
-        if self.driver.get_cookies() == 0:
-
+        if not self.driver.get_cookies():
             self.handle_iframe()
-        
-        
-        self.driver.get(request.url)
+            
             
         return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
 

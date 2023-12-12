@@ -23,7 +23,9 @@ class UpdateArticlePipeline:
         pass
 
     def process_item(self, item, spider):
+
         if spider.operation == 'update':
+
             session = self.Session()
 
             article = Article(
@@ -34,9 +36,12 @@ class UpdateArticlePipeline:
             try:
                 session.add(article)
                 session.commit()
+
             except Exception as e:
                 session.rollback()
+                
                 raise
+
             finally:
                 session.close()
 
