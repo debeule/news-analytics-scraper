@@ -10,7 +10,7 @@ SPIDER_MODULES = ["bp_articles_scraper.spiders"]
 NEWSPIDER_MODULE = "bp_articles_scraper.spiders"
 
 # LOG_FILE = 'scrapy.log'
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = "DEBUG"
 
 TWISTED_REACTOR = "twisted.internet.epollreactor.EPollReactor"
 FEED_EXPORT_ENCODING = "utf-8"
