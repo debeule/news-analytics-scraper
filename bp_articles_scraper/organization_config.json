@@ -2,7 +2,37 @@
     "1": {
         "name": "hln",
         "url": "https://www.hln.be/net-binnen",
-        "iframe_selector": "sp_message_iframe_901952",
-        "button_selector": ".pg-accept-button"
+        "paginated": true,
+
+        "structure": {
+            "iframe_selector": "sp_message_iframe_901952",
+            "button_selector": ".pg-accept-button",
+
+            "list_element": "section",
+            "list_identifier": "h1",
+            "list_identifier_content": "Net binnen",
+
+            "article_element": "a",
+            "article_title": "p",
+            "article_link_element": "self"
+        }
+    },
+    "2": {
+        "name": "detijd",
+        "url": "https://www.tijd.be/meest-recent.html",
+        "paginated": false,
+
+        "structure": {
+            "iframe_selector": "None",
+            "button_selector": ".didomi-dismiss-button",
+
+            "list_element": "section",
+            "list_identifier": "h1",
+            "list_identifier_content": "Meest recent",
+
+            "article_element": "li",
+            "article_title": "a",
+            "article_link_element": "self"
+        }
     }
 }
