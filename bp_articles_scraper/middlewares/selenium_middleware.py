@@ -3,56 +3,62 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
-import time
-from selenium.webdriver.chrome.options import Options
+from seleniumwire import webdriver
+import json
+
 
 class SeleniumMiddleware:
 
-    def __init__(self):
-        self.driver = None
-
-        options = Options()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        #use tmp instead of /dev/shm (not ideal because meomory ==> disk)
-        options.add_argument('--disable-dev-shm-usage')
-
-        self.driver = webdriver.Chrome(executable_path=r'/usr/bin/chromedriver', options=options)
-        
+    privacy_consent_clicked = False        
 
     def process_request(self, request, spider):
-        self.driver.get(request.url)
-
-        if not self.driver.get_cookies():
-            self.handle_iframe()
-            
-            
-        return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
-
-    
-    def handle_iframe(self):
-        iframe_id = "sp_message_iframe_901952"
-
-        iframe = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, iframe_id))
-        )
-
-        self.driver.switch_to.frame(iframe)
-
-        accept_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '.pg-accept-button'))
-        )
-
-        accept_button.click()
         
-        time.sleep(5)
+        self.driver = webdriver.Chrome(
+            executable_path='/usr/bin/chromedriver',
+            options=request.meta['options'],
+            seleniumwire_options=request.meta['proxy']
+        )
+        
+        if request.meta.get('testing') is not None:
+            
+            with open('./bp_articles_scraper/organization_config.json', 'r') as file:
+                
+                file_data = json.load(file)[str(request.meta.get('organization_id'))]
+                self.structure = file_data['structure']
 
+            
+            self.driver.get(request.url)  
 
-        # Switch back to the main frame
-        self.driver.switch_to.default_content() 
+            if not self.privacy_consent_clicked:
+                self.handle_cookie_consent()
 
-        # Wait for the page to load
-        time.sleep(10)
+        self.driver.get(request.url)
+        
+        return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
+        
+    
+    def handle_cookie_consent(self):
+
+        if self.structure['iframe_selector'] != "None":
+            
+            iframe = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.ID, self.structure['iframe_selector']))
+            )
+
+            self.driver.switch_to.frame(iframe)
+            
+            
+        accept_button = WebDriverWait(self.driver, 9).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
+        )
+        
+        accept_button.click()
+
+        WebDriverWait(self.driver, 8).until(
+            EC.staleness_of(iframe)
+        )
+
+        self.privacy_consent_clicked = True 
 
                 
     def spider_closed(self, spider):
