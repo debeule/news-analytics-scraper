@@ -48,3 +48,9 @@ beautifulsoup4>=4.12.2
 Flask>=1.0.0
 chromedriver_autoinstaller>=0.2.2
 crochet>=2.1.1
+fake-useragent>=1.4.0
+
+
+kaitaistruct>=0.10 
+selenium-wire>=5.1.0 
+zstandard>=0.22.0
