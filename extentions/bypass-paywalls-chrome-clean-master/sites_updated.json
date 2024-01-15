@@ -1,0 +1,104 @@
+{
+  "Automobilwoche": {
+    "domain": "automobilwoche.de",
+    "allow_cookies": 1,
+    "block_regex": "\\.automobilwoche\\.de\\/sites\\/camw\\/files\\/js\\/js_8J_.+\\.js",
+    "upd_version": "3.4.7.1"
+  },
+  "Bild (link to archive.is)": {
+    "domain": "bild.de",
+    "allow_cookies": 1,
+    "add_ext_link": "div.offer-module|div.article-body",
+    "add_ext_link_type": "archive.is",
+    "upd_version": "3.4.7.5"
+  },
+  "Bloomberg": {
+    "domain": "bloomberg.com",
+    "allow_cookies": 1,
+    "block_regex": "(\\.cm\\.bloomberg\\.com\\/|assets\\.bwbx\\.io\\/s\\d\\/javelin\\/.+\\/transporter\\/)",
+    "upd_version": "3.2.7.1"
+  },
+  "BlueConic": {
+    "domain": "blueconic.net",
+    "allow_cookies": 1,
+    "block_regex_general": "(\\.blueconic\\.net\\/|[a-z]{1}[0-9]{2,3}\\.[\\w-]+\\.(co(m|\\.uk)|net|org)\\/script\\.js)",
+    "excluded_domains": ["nationalreview.com"],
+    "upd_version": "3.4.7.3"
+  },
+  "Crikey.com.au": {
+    "domain": "crikey.com.au",
+    "block_regex": "\\.crickey\\.com\\.au\\/zephr\\/feature",
+    "remove_cookies_select_drop": ["blaize_session"],
+    "upd_version": "3.4.5.3"
+  },
+  "Literary Review (UK)": {
+    "domain": "literaryreview.co.uk",
+    "allow_cookies": 1,
+    "ld_json_url": "p.subscribe-for-more|div#_articlereview",
+    "upd_version": "3.4.6.3"
+  },
+  "London Review of Books": {
+    "domain": "lrb.co.uk",
+    "allow_cookies": 1,
+    "block_js_inline": "\\.lrb\\.co\\.uk\\/",
+    "upd_version": "3.4.7.4"
+  },
+  "Money.it": {
+    "domain": "money.it",
+    "allow_cookies": 1,
+    "cs_block": 1,
+    "upd_version": "3.4.7.5"
+  },
+  "National Review": {
+    "domain": "nationalreview.com",
+    "allow_cookies": 1,
+    "remove_cookies": 1,
+    "block_regex": "cdn\\.ampproject\\.org\\/v\\d\\/amp-access-.+\\.js",
+    "cs_block": 1,
+    "upd_version": "3.4.7.3"
+  },
+  "New York Magazine (+ Curbed, Grub Street, The Cut & Vulture)": {
+    "domain": "###_usa_nymag",
+    "group": [
+      "curbed.com",
+      "grubstreet.com",
+      "nymag.com",
+      "thecut.com",
+      "vulture.com"
+    ],
+    "allow_cookies": 1,
+    "block_regex": "\\.cloudfront\\.net\\/embed\\/widget\\/subx.+\\.js",
+    "upd_version": "3.4.7.6"
+  },
+  "Rzeczpospolita": {
+    "domain": "rp.pl",
+    "ld_google_webcache": "div.paywallComponentWrapper|div.main--content--body",
+    "upd_version": "3.4.7.6"
+  },
+  "The Economist": {
+    "domain": "economist.com",
+    "allow_cookies": 1,
+    "block_regex": "\\.tinypass\\.com\\/",
+    "cs_code": "[{\"cond\":\"div.paywall\", \"rm_elem\": 1, \"elems\":[{\"cond\":\"svelte-scroller-outer\", \"rm_elem\": 1}, {\"cond\":\"body > style\", \"rm_elem\": 1}]}]",
+    "upd_version": "3.2.7.6"
+  },
+  "The New York Times": {
+    "domain": "nytimes.com",
+    "allow_cookies": 1,
+    "block_regex": "(\\.nytimes\\.com\\/meter\\.js|mwcm\\.nyt\\.com\\/.+\\.js|cooking\\.nytimes\\.com\\/api\\/.+\\/access)",
+    "useragent": "googlebot",
+    "upd_version": "3.1.4.0"
+  },
+  "TownNews sites (Blox CMS)": {
+    "domain": "###_usa_townnews",
+    "block_regex_general": "\\/tncms\\/api\\/access(\\..+)?\\.js",
+    "cs_dompurify": 1,
+    "upd_version": "3.4.1.6",
+  "Weser-Kurier": {
+    "domain": "weser-kurier.de",
+    "allow_cookies": 1,
+    "block_regex": "\\.piano\\.io\\/",
+    "upd_version": "3.4.6.4"
+  }
+  }
+}

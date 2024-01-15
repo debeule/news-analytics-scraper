@@ -9,28 +9,44 @@ setup()
 
 app = Flask(__name__)
 
+
 @app.route('/api/articles_list_scraper', methods=['POST'])
-def start_spider():
+def start_articles_list_scraper_spider():
     try:
         organization_id = int(request.json.get('organizationId'))
 
-        # Run the spider asynchronously using Crochet
         run_spider(organization_id)
         
         return "bonn", 200
     
     except Exception as e:
-        return jsonify({'message': str(e)}), 500
-    
-@wait_for(timeout=60.0)
-def run_spider(organization_id):
-    settings = get_project_settings()
-    settings.update({
-        'organization_id': organization_id,
-    })
+        return jsonify({'message': str(e)}), 500    
 
-    process = CrawlerRunner(settings)
-    d = process.crawl("articles_list_scraper", organization_id=organization_id)
+
+@app.route('/api/article_scraper', methods=['POST'])
+def start_article_scraper_spider():
+    try:
+        article_url = int(request.json.get('article_url'))
+
+        run_spider(article_url)
+        
+        return "bonn", 200
+    
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+@wait_for(timeout=60.0)
+def run_spider(input):
+    
+    process = CrawlerRunner(get_project_settings())
+
+    if type(input) == int:
+        d = process.crawl("articles_list_scraper", organization_id = input)
+
+    if type(input) == str:
+        d = process.crawl("article_scraper", article_url = input)
+
 
     d.addBoth(lambda _: "done")
 
@@ -39,31 +55,3 @@ def run_spider(organization_id):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-
-# def run_spider():
-#     data = request.get_json()
-
-#     if 'organizationId' not in data:
-#         return jsonify(message='Missing organizationId in the request data'), 400
-    
-#     try:
-#         result = sync_run_spider(data)
-        
-#     except Exception as e:
-#         return jsonify(message=str(e)), 500
-
-#     return jsonify(result), 200
-    
-
-
-# @run_in_reactor
-# def sync_run_spider(data):
-#     crawler = CrawlerRunner(get_project_settings())
-#     d = crawler.crawl("ArticleListScraper", organization_id = data['organizationId'])
-#     d.addBoth(lambda _: reactor.stop())
-    
-#     # wait for callback = block until the crawling is finished
-#     reactor.run()
-#     return d
