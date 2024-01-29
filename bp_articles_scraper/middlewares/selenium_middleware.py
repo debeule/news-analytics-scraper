@@ -6,33 +6,33 @@ from scrapy.http import HtmlResponse
 from seleniumwire import webdriver
 import json
 
-
 class SeleniumMiddleware:
 
     privacy_consent_clicked = False        
 
     def process_request(self, request, spider):
-        
+
+        seleniumwire_options = request.meta['proxy'].update({'backend': 'blocking'})
+
         self.driver = webdriver.Chrome(
             executable_path='/usr/bin/chromedriver',
             options=request.meta['options'],
-            seleniumwire_options=request.meta['proxy']
+            seleniumwire_options=seleniumwire_options
         )
         
-        if request.meta.get('testing') is not None:
+        self.driver.request_interceptor = self.block_unneccesary_requests(request)
+
+        self.driver.get(request.url)  
+        
+        if request.meta.get('testing') is None:
             
             with open('./bp_articles_scraper/organization_config.json', 'r') as file:
                 
                 file_data = json.load(file)[str(request.meta.get('organization_id'))]
                 self.structure = file_data['structure']
 
-            
-            self.driver.get(request.url)  
-
             if not self.privacy_consent_clicked:
                 self.handle_cookie_consent()
-
-        self.driver.get(request.url)
         
         return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
         
@@ -45,20 +45,42 @@ class SeleniumMiddleware:
                 EC.presence_of_element_located((By.ID, self.structure['iframe_selector']))
             )
 
+            print(iframe)
+
             self.driver.switch_to.frame(iframe)
             
             
         accept_button = WebDriverWait(self.driver, 9).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
         )
-        
+
+        print(accept_button)
+
         accept_button.click()
 
-        WebDriverWait(self.driver, 8).until(
-            EC.staleness_of(iframe)
+        if self.structure['iframe_selector'] != "None":
+            
+            WebDriverWait(self.driver, 8).until
+            (
+                EC.staleness_of(iframe)
+            )
+        
+        self.driver.switch_to.default_content()
+
+        WebDriverWait(self.driver, 7).until
+        (
+            EC.presence_of_element_located((By.TAG_NAME, self.structure['list_element']))
         )
 
         self.privacy_consent_clicked = True 
+
+
+    def block_unneccesary_requests(self, request):
+
+        keywords = ['image', 'img', 'font', 'tracking', 'analytics', 'advertising', 'css', 'js', 'svg', 'webp']
+        if any(keyword in request.url for keyword in keywords):
+            request.abort()
+
 
                 
     def spider_closed(self, spider):
