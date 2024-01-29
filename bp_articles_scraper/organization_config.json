@@ -1,30 +1,16 @@
 {
     "1": {
-        "name": "hln",
-        "url": "https://www.hln.be/net-binnen",
-        "paginated": true,
-
-        "structure": {
-            "iframe_selector": "sp_message_iframe_901952",
-            "button_selector": ".pg-accept-button",
-
-            "list_element": "section",
-            "list_identifier": "h1",
-            "list_identifier_content": "Net binnen",
-
-            "article_element": "a",
-            "article_title": "p",
-            "article_link_element": "self"
-        }
-    },
-    "2": {
         "name": "detijd",
         "url": "https://www.tijd.be/meest-recent.html",
         "paginated": false,
 
         "structure": {
+            "domain": "www.tijd.be",
+            "partial_urls": true,
             "iframe_selector": "None",
             "button_selector": ".didomi-dismiss-button",
+            
+            "segment_element": "main",
 
             "list_element": "section",
             "list_identifier": "h1",
@@ -32,6 +18,49 @@
 
             "article_element": "li",
             "article_title": "a",
+            "article_link_element": "a"
+        }
+    },
+    "2": {
+        "name": "demorgen",
+        "url": "https://www.demorgen.be/nieuws",
+        "paginated": false,
+
+        "structure": {
+            "domain": "www.demorgen.be",
+            "partial_urls": false,
+            "iframe_selector": "sp_message_iframe_901951",
+            "button_selector": ".pg-accept-button",
+            
+            "segment_element": "main",
+
+            "list_element": "section",
+            "list_identifier": "h1",
+            "list_identifier_content": "Meest recent",
+
+            "article_element": "li",
+            "article_title": "a",
+            "article_link_element": "a"
+        }
+    },
+    "3": {
+        "name": "telegraaf",
+        "url": "https://www.telegraaf.nl/laatstenieuws",
+        "paginated": false,
+
+        "structure": {
+            "domain": "www.telegraaf.nl",
+            "partial_urls": true,
+            "iframe_selector": "None",
+            "button_selector": ".didomi-dismiss-button",
+            
+            "segment_element": "main",
+
+            "list_identifier": "h1",
+            "list_identifier_content": "Net binnen",
+
+            "article_element": "a",
+            "article_title": "span",
             "article_link_element": "self"
         }
     }
