@@ -11,12 +11,3 @@ docker exec websitetest-scraper-1 scrapy crawl article_scraper -a article_url=
     pip install -r requirements.txt
 
     source "source_dir"/venv/Scripts/activate
-
-### build & start docker image / container
-    docker build -t scraper .
-    docker run -it --rm scraper
-
-### setup scrapy - main_app networking
-    docker network create network_name (returns network_hash)
-    docker ps (for container id)
-    docker network connect network_hash container_id
