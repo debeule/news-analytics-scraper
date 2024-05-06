@@ -29,6 +29,6 @@ ITEM_PIPELINES = {
 DATABASE_URL = f"{os.getenv('DB_CONNECTION')}://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:3306/{os.getenv('DB_DATABASE')}"
 
 PROXY_URL = f"{os.getenv('OXYLABS_URL')}:{os.getenv('OXYLABS_PORT')}"
-AUTH_PROXY_URL = f"{os.getenv('OXYLABS_USERNAME')}:{os.getenv('OXYLABS_PASSWORD')}@{os.getenv('OXYLABS_URL')}:{os.getenv('OXYLABS_PORT_AUTH')}"
+AUTH_PROXY_URL = f"{os.getenv('OXYLABS_USERNAME')}:{os.getenv('OXYLABS_PASSWORD')}@{os.getenv('OXYLABS_URL')}:{os.getenv('OXYLABS_PORT')}"
 
 AMOUNT_OF_PAGES_TO_SCRAPE = 3
