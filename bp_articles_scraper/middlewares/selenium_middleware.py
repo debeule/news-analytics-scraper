@@ -12,15 +12,13 @@ class SeleniumMiddleware:
 
     def process_request(self, request, spider):
 
-        seleniumwire_options = request.meta['proxy'].update({'backend': 'blocking'})
-
         self.driver = webdriver.Chrome(
             executable_path='/usr/bin/chromedriver',
             options=request.meta['options'],
-            seleniumwire_options=seleniumwire_options
+            seleniumwire_options=request.meta['proxy']
         )
         
-        self.driver.request_interceptor = self.block_unneccesary_requests(request)
+        self.driver.request_interceptor = self.block_unneccesary_requests
 
         self.driver.get(request.url)  
         
@@ -77,8 +75,14 @@ class SeleniumMiddleware:
 
     def block_unneccesary_requests(self, request):
 
-        keywords = ['image', 'img', 'font', 'tracking', 'analytics', 'advertising', 'css', 'js', 'svg', 'webp']
+        # keywords = ['image', 'img', 'font', 'tracking', 'analytics', 'advertising', 'css', 'svg', 'webp']
+        keywords = ['image', 'img', 'font', 'css']
         if any(keyword in request.url for keyword in keywords):
+            request.abort()
+    
+    def interceptor(self, request):
+        
+        if request.path.endswith(('.png', '.jpg', '.gif')):
             request.abort()
 
 
