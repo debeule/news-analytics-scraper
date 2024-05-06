@@ -12,6 +12,7 @@ class ProxyMiddleware:
 
 
     def process_request(self, request, spider):
+        
         request.meta['proxy'] = {
             'proxy': {
                 'http': f'https://{self.settings.get("AUTH_PROXY_URL")}',
