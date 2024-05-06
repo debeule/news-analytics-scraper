@@ -22,7 +22,7 @@ class OptionsMiddleware:
         self.options.add_experimental_option('useAutomationExtension', False)
 
         
-        extensions_path = '/app/extensions/'
+        extensions_path = '/code/extensions/'
         # self.options.add_argument('load-extension=/app/extensions/bypass-paywalls-chrome-master')
         self.options.add_extension(extensions_path + 'bypass-paywalls.crx')
         self.options.add_extension(extensions_path + 'add-block-plus.crx')
