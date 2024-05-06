@@ -15,12 +15,12 @@ def start_articles_list_scraper_spider():
     try:
         organization_id = int(request.json.get('organizationId'))
 
-        run_spider(organization_id)
+        result = run_spider(organization_id)
         
-        return "bonn", 200
+        return jsonify({'response': result}), 200
     
     except Exception as e:
-        return jsonify({'message': str(e)}), 500    
+        return jsonify({'error': str(e)}), 500 
 
 
 @app.route('/api/article_scraper', methods=['POST'])
