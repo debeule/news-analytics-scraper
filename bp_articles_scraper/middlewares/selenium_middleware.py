@@ -43,18 +43,15 @@ class SeleniumMiddleware:
                 EC.presence_of_element_located((By.ID, self.structure['iframe_selector']))
             )
 
-            print(iframe)
-
             self.driver.switch_to.frame(iframe)
             
             
-        accept_button = WebDriverWait(self.driver, 9).until(
+        accept_button = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
         )
 
-        print(accept_button)
-
-        accept_button.click()
+        if accept_button:
+            accept_button.click()
 
         if self.structure['iframe_selector'] != "None":
             
@@ -75,8 +72,7 @@ class SeleniumMiddleware:
 
     def block_unneccesary_requests(self, request):
 
-        # keywords = ['image', 'img', 'font', 'tracking', 'analytics', 'advertising', 'css', 'svg', 'webp']
-        keywords = ['image', 'img', 'font', 'css']
+        keywords = ['image', 'img', 'font', 'css', 'google', 'googleapis' 'issue', 'analytics', 'ico', 'tracker', 'design']
         if any(keyword in request.url for keyword in keywords):
             request.abort()
     
