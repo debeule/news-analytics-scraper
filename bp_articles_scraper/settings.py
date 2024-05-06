@@ -22,8 +22,8 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ITEM_PIPELINES = {
-    'bp_articles_scraper.pipelines.create_article_pipeline.CreateArticlePipeline': 100,
-    'bp_articles_scraper.pipelines.update_article_pipeline.UpdateArticlePipeline': 200,
+    # 'bp_articles_scraper.pipelines.create_article_pipeline.CreateArticlePipeline': 100,
+    # 'bp_articles_scraper.pipelines.update_article_pipeline.UpdateArticlePipeline': 200,
 }
 
 DATABASE_URL = f"{os.getenv('DB_CONNECTION')}://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:3306/{os.getenv('DB_DATABASE')}"
