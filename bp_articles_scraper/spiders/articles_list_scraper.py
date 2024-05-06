@@ -35,12 +35,11 @@ class Articleslistscraper(scrapy.Spider):
             self.start_urls = [base_url]
             
         self.structure = config_file['structure']
-        self.operation = 'create'
         self.organization_id = str(organization_id)
 
 
     def start_requests(self):
-
+        
         for url in self.start_urls:
 
             yield SeleniumRequest(
@@ -53,29 +52,26 @@ class Articleslistscraper(scrapy.Spider):
     def parse(self, response):
 
         soup = BeautifulSoup(response.body, 'html.parser')
-
-        # print(soup.prettify())
-
+        
         articles = []
 
-        sections = soup.find_all('section')
+        segments = soup.find_all(self.structure['segment_element'])
+        
+        for segment in segments:
 
-        for section in sections:
+            # identifier_element = segment.find(self.structure['list_identifier'])
+            # if identifier_element and identifier_element.get_text() == self.structure['list_identifier_content']:
+                
+            articles = segment.find_all(self.structure['article_element'])
 
-            identifier_element = section.find(self.structure['list_identifier'])
+            break
 
-            if identifier_element and identifier_element.get_text() == self.structure['list_identifier_content']:
-                articles = section.find_all(self.structure['article_element'])
-
-                break
-
+        return_array = []
         for article in articles:
                 
                 try:
-                    data = {}
-
                     main_title = article.find(self.structure['article_title']).get_text()
-                    print(main_title)
+                    
 
                     url_element = article
 
@@ -84,15 +80,14 @@ class Articleslistscraper(scrapy.Spider):
                     
                     url = url_element.get('href')
 
-                    data = {
+                    return_array.append({
                         'main_title': main_title,
                         'url': url,
                         'organization_id': self.organization_id,
-                    }
-                    
-                    yield data
+                    })
 
                 except Exception as e:
-                    print('exception: ' + e)
+                    print(e)
                     continue
-                    
+        
+        return return_array
