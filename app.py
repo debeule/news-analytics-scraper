@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 from crochet import setup, run_in_reactor, wait_for
-from scrapy.crawler import CrawlerRunner
-from scrapy.utils.project import get_project_settings
+from scrapy.crawler import CrawlerRunner, CrawlerProcess
 from twisted.internet import reactor
+from scrapy.signalmanager import dispatcher
+from scrapy import signals
 
+from scrapyscript import Job, Processor
+from scrapy.utils.project import get_project_settings
 
-setup()
 
 app = Flask(__name__)
 
@@ -22,35 +24,11 @@ def start_articles_list_scraper_spider():
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
 
-
-@app.route('/api/article_scraper', methods=['POST'])
-def start_article_scraper_spider():
-    try:
-        article_url = int(request.json.get('article_url'))
-
-        run_spider(article_url)
-        
-        return "bonn", 200
-    
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
-
-
-@wait_for(timeout=60.0)
 def run_spider(input):
-    
-    process = CrawlerRunner(get_project_settings())
+    job = Job('articles_list_scraper', organization_id = input)
+    processor = Processor(settings=get_project_settings())
 
-    if type(input) == int:
-        d = process.crawl("articles_list_scraper", organization_id = input)
-
-    if type(input) == str:
-        d = process.crawl("article_scraper", article_url = input)
-
-
-    d.addBoth(lambda _: "done")
-
-    return d
+    return processor.run(job)
 
 
 if __name__ == '__main__':
