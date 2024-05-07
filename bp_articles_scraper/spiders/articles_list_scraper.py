@@ -13,7 +13,6 @@ class Articleslistscraper(scrapy.Spider):
 
 
     def __init__(self, organization_id=None, *args, **kwargs):
-
         super(Articleslistscraper, self).__init__(*args, **kwargs)
 
         settings = get_project_settings()
@@ -36,10 +35,10 @@ class Articleslistscraper(scrapy.Spider):
             
         self.structure = config_file['structure']
         self.organization_id = str(organization_id)
+        self.scraped_data = []
 
 
     def start_requests(self):
-        
         for url in self.start_urls:
 
             yield SeleniumRequest(
@@ -50,7 +49,6 @@ class Articleslistscraper(scrapy.Spider):
             )
 
     def parse(self, response):
-
         soup = BeautifulSoup(response.body, 'html.parser')
         
         articles = []
@@ -66,7 +64,6 @@ class Articleslistscraper(scrapy.Spider):
 
             break
 
-        return_array = []
         for article in articles:
                 
                 try:
@@ -80,7 +77,7 @@ class Articleslistscraper(scrapy.Spider):
                     
                     url = url_element.get('href')
 
-                    return_array.append({
+                    self.scraped_data.append({
                         'main_title': main_title,
                         'url': url,
                         'organization_id': self.organization_id,
@@ -90,4 +87,4 @@ class Articleslistscraper(scrapy.Spider):
                     print(e)
                     continue
         
-        return return_array
+        return self.scraped_data
