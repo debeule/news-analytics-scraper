@@ -72,7 +72,7 @@ class SeleniumMiddleware:
 
     def block_unneccesary_requests(self, request):
 
-        keywords = ['image', 'img', 'font', 'css', 'google', 'googleapis' 'issue', 'analytics', 'ico', 'tracker', 'design']
+        keywords = ['image', 'img', 'font', 'css', 'google', 'googleapis' 'issue', 'analytics', 'ico', 'tracker', 'design', 'welcome']
         if any(keyword in request.url for keyword in keywords):
             request.abort()
     
