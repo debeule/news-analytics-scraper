@@ -19,7 +19,20 @@
             "article_element": "li",
             "article_title": "a",
             "article_link_element": "a"
-        }
+        },  
+              
+        "keywords": [
+            "header",
+            "footer",
+            "advertisement",
+            "advertentie",
+            "meest gelezen",
+            "morearticles",
+            "relatedarticleslist",
+            "adcontainer",
+            "c-newsticker"
+        ]
+        
     },
     "2": {
         "name": "demorgen",
