@@ -1,9 +1,12 @@
-### scrapy test spider command
-docker exec websitetest-scraper-1 scrapy crawl articles_list_scraper -a organization_id=1
-docker exec websitetest-scraper-1 curl -X POST -H "Content-Type: application/json" -d '{"organizationId": "1"}' http://localhost:5000/api/articles_list_scraper
+### scrapy test article_list_scraper example
+docker exec scraper scrapy crawl articles_list_scraper -a organization_id=1
+docker exec scraper curl -X POST -H "Content-Type: application/json" -d '{"organizationId": "1"}' http://localhost:5000/api/articles_list_scraper
 
+### scrapy test articles_list_scraper example
+docker exec scraper scrapy crawl articles_list_scraper -a organization_id=1
 
-docker exec websitetest-scraper-1 scrapy crawl article_scraper -a article_url=
+### scrapy test article_scraper example
+docker exec scraper scrapy crawl article_scraper -a article_url=https://www.tijd.be/dossiers/de-tijdcapsule/de-tijdcapsule-emna-everard-ecowebshop-kazidomi-je-moet-geen-politicus-zijn-om-impact-te-hebben/10545219.html -a organization_id=1
 
 ### to install project dependencies & activate virtual environment:
     python3 -m venv venv
