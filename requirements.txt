@@ -78,3 +78,4 @@ wsproto==1.2.0
 zope.interface==6.3
 zstandard==0.22.0
 mysqlclient==2.1.0
+scrapyscript==1.1.5
