@@ -67,7 +67,7 @@ class Articleslistscraper(scrapy.Spider):
         for article in articles:
                 
                 try:
-                    main_title = article.find(self.structure['article_title']).get_text()
+                    title = article.find(self.structure['article_title']).get_text()
                     
 
                     url_element = article
@@ -78,7 +78,7 @@ class Articleslistscraper(scrapy.Spider):
                     url = url_element.get('href')
 
                     self.scraped_data.append({
-                        'main_title': main_title,
+                        'title': title,
                         'url': url,
                         'organization_id': self.organization_id,
                     })
