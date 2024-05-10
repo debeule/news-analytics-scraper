@@ -31,4 +31,4 @@ DATABASE_URL = f"{os.getenv('DB_CONNECTION')}://{os.getenv('DB_USERNAME')}:{os.g
 PROXY_URL = f"{os.getenv('OXYLABS_URL')}:{os.getenv('OXYLABS_PORT')}"
 AUTH_PROXY_URL = f"{os.getenv('OXYLABS_USERNAME')}:{os.getenv('OXYLABS_PASSWORD')}@{os.getenv('OXYLABS_URL')}:{os.getenv('OXYLABS_PORT')}"
 
-AMOUNT_OF_PAGES_TO_SCRAPE = 3
+AMOUNT_OF_PAGES_TO_SCRAPE = 2
