@@ -45,10 +45,13 @@ class SeleniumMiddleware:
 
             self.driver.switch_to.frame(iframe)
             
+        try:
+            accept_button = WebDriverWait(self.driver, 30).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
+            )
             
-        accept_button = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
-        )
+        except:
+            accept_button = None
 
         if accept_button:
             accept_button.click()
