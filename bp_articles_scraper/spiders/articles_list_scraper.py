@@ -21,17 +21,15 @@ class Articleslistscraper(scrapy.Spider):
         with open('./bp_articles_scraper/organization_config.json', 'r') as file:
             
             config_file = json.load(file)[str(organization_id)]
-
-        base_url = config_file['url']
         
         num_pages = settings['AMOUNT_OF_PAGES_TO_SCRAPE']
 
         if config_file['paginated']:
             for page in range(1, num_pages - 1):
-                self.start_urls.append(base_url + '?page=' + str(page))
+                self.start_urls.append(config_file['url'] + '?page=' + str(page))
         
         if not config_file['paginated']:
-            self.start_urls = [base_url]
+            self.start_urls = [config_file['url']]
             
         self.structure = config_file['structure']
         self.organization_id = str(organization_id)
@@ -67,7 +65,7 @@ class Articleslistscraper(scrapy.Spider):
         for article in articles:
                 
                 try:
-                    title = article.find(self.structure['article_title']).get_text()
+                    title = article.find(self.structure['article_title']).get_text().strip()
                     
 
                     url_element = article
@@ -75,12 +73,11 @@ class Articleslistscraper(scrapy.Spider):
                     if self.structure['article_link_element'] != 'self':
                         url_element = article.find(self.structure['article_link_element'])
                     
-                    url = url_element.get('href')
+                    url = 'https://' + self.structure['domain'] + url_element.get('href').strip()
 
                     self.scraped_data.append({
                         'title': title,
                         'url': url,
-                        'organization_id': self.organization_id,
                     })
 
                 except Exception as e:
