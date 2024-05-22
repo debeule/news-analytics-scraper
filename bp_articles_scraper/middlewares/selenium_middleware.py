@@ -46,7 +46,7 @@ class SeleniumMiddleware:
             self.driver.switch_to.frame(iframe)
             
         try:
-            accept_button = WebDriverWait(self.driver, 30).until(
+            accept_button = WebDriverWait(self.driver, 11).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
             )
             
