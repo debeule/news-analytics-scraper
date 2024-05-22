@@ -11,24 +11,38 @@ from scrapy.utils.project import get_project_settings
 
 app = Flask(__name__)
 
-
-@app.route('/api/articles_list_scraper', methods=['POST'])
-def start_articles_list_scraper_spider():
+@app.route('/api/article_scraper', methods=['POST'])
+def start_article_scraper_spider():
     try:
-        organization_id = int(request.json.get('organizationId'))
+        organization_id = int(request.json.get('organization_id'))
+        url = request.json.get('url')
 
-        result = run_spider(organization_id)
+        job = Job('article_scraper', organization_id = organization_id, url = url)
+        processor = Processor(settings=get_project_settings())
+       
+        result = processor.run(job)
         
         return jsonify({'response': result}), 200
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
 
-def run_spider(input):
-    job = Job('articles_list_scraper', organization_id = input)
-    processor = Processor(settings=get_project_settings())
+@app.route('/api/articles_list_scraper', methods=['POST'])
+def start_articles_list_scraper_spider():
+    try:
+        organization_id = int(request.json.get('organization_id'))
 
-    return processor.run(job)
+        job = Job('articles_list_scraper', organization_id = organization_id)
+        processor = Processor(settings=get_project_settings())
+
+        result = processor.run(job)
+
+        if not result:  raise ValueError('scraping articlesList failed')
+        
+        return jsonify({'response': result}), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
