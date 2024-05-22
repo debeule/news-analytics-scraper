@@ -39,6 +39,9 @@ class ArticleScraper(scrapy.Spider):
         soup = BeautifulSoup(response.body, 'html.parser')
 
         try:
+            authors_div = soup.find('div', class_='c-articlehead__detail__authors')
+            author = 'author: ' + authors_div.find('span').get_text()
+
             unwanted_elements = (soup.find_all(lambda tag:
                 tag.name and any(keyword in tag.name.lower() for keyword in self.keywords))
             )
@@ -60,7 +63,7 @@ class ArticleScraper(scrapy.Spider):
             for element in unwanted_elements:
                 element.decompose()
 
-            self.article = ''.join(soup.stripped_strings)
+            self.article = ''.join(soup.stripped_strings) + author
             
         except Exception as e:
             print(e)
