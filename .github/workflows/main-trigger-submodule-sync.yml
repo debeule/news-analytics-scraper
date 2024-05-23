@@ -1,0 +1,25 @@
+name: Notify parent repository as submodule
+
+on:
+  pull_request:
+    types: [closed]
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Notify main repo
+        uses: releasehub-com/github-action-create-pr-parent-submodule@v1
+        with:
+          github_token: ${{ secrets.GHCR_TOKEN }}
+          parent_repository: 'debeule/news-analytics-dock'
+          checkout_branch: 'main'
+          pr_against_branch: 'main'
+          owner: 'debeule'
