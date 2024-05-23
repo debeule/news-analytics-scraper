@@ -22,7 +22,10 @@ def start_article_scraper_spider():
         processor = Processor(settings=get_project_settings())
        
         result = processor.run(job)
-        
+        print(result)
+
+        if not result:  raise ValueError('scraping article failed')
+
         return jsonify({'response': result}), 200
     
     except Exception as e:
