@@ -11,6 +11,7 @@ from scrapy.utils.project import get_project_settings
 
 app = Flask(__name__)
 
+
 @app.route('/api/article_scraper', methods=['POST'])
 def start_article_scraper_spider():
     try:
@@ -26,6 +27,7 @@ def start_article_scraper_spider():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
+    
 
 @app.route('/api/articles_list_scraper', methods=['POST'])
 def start_articles_list_scraper_spider():
