@@ -50,38 +50,39 @@ class Articleslistscraper(scrapy.Spider):
         soup = BeautifulSoup(response.body, 'html.parser')
         
         articles = []
-
-        segments = soup.find_all(self.structure['segment_element'])
+        
+        segments = soup.find_all('main')
         
         for segment in segments:
-
-            # identifier_element = segment.find(self.structure['list_identifier'])
-            # if identifier_element and identifier_element.get_text() == self.structure['list_identifier_content']:
-                
             articles = segment.find_all(self.structure['article_element'])
-
-            break
 
         for article in articles:
                 
-                try:
-                    title = article.find(self.structure['article_title']).get_text().strip()
-                    
+            try:
+                title_elements = article.find_all(self.structure['article_title'])
+                
+                title = ''
+                
+                for title_element in title_elements:
+                    title = title + title_element.get_text().strip()
 
-                    url_element = article
+                url_element = article
 
-                    if self.structure['article_link_element'] != 'self':
-                        url_element = article.find(self.structure['article_link_element'])
-                    
-                    url = 'https://' + self.structure['domain'] + url_element.get('href').strip()
+                if self.structure['article_link_element'] != 'self':
+                    url_element = article.find(self.structure['article_link_element'])
 
-                    self.scraped_data.append({
-                        'title': title,
-                        'url': url,
-                    })
+                url = url_element.get('href').strip()
 
-                except Exception as e:
-                    print(e)
-                    continue
+                if 'www' not in url:
+                    url = 'https://' + self.structure['domain'] + url
+
+                self.scraped_data.append({
+                    'title': title,
+                    'url': url,
+                })
+
+            except Exception as e:
+                print(e)
+                continue
         
         return self.scraped_data
