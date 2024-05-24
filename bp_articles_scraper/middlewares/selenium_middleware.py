@@ -5,10 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
 from seleniumwire import webdriver
 import json
+from time import sleep
 
 class SeleniumMiddleware:
-
-    privacy_consent_clicked = False        
 
     def process_request(self, request, spider):
 
@@ -29,8 +28,7 @@ class SeleniumMiddleware:
                 file_data = json.load(file)[str(request.meta.get('organization_id'))]
                 self.structure = file_data['structure']
 
-            if not self.privacy_consent_clicked:
-                self.handle_cookie_consent()
+            self.handle_cookie_consent()
         
         return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
         
@@ -38,26 +36,25 @@ class SeleniumMiddleware:
     def handle_cookie_consent(self):
 
         if self.structure['iframe_selector'] != "None":
-            
-            iframe = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, self.structure['iframe_selector']))
-            )
+            try: 
+                iframe = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.ID, self.structure['iframe_selector']))
+                )
 
-            self.driver.switch_to.frame(iframe)
+                self.driver.switch_to.frame(iframe)
+
+            except: iframe = None
             
         try:
             accept_button = WebDriverWait(self.driver, 11).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, self.structure['button_selector']))
             )
             
-        except:
-            accept_button = None
+        except: accept_button = None
 
-        if accept_button:
-            accept_button.click()
+        if accept_button: accept_button.click()
 
         if self.structure['iframe_selector'] != "None":
-            
             WebDriverWait(self.driver, 8).until
             (
                 EC.staleness_of(iframe)
@@ -70,8 +67,7 @@ class SeleniumMiddleware:
             EC.presence_of_element_located((By.TAG_NAME, self.structure['list_element']))
         )
 
-        self.privacy_consent_clicked = True 
-
+        sleep(3)
 
     def block_unneccesary_requests(self, request):
 
