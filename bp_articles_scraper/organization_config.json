@@ -9,8 +9,6 @@
             "partial_urls": true,
             "iframe_selector": "None",
             "button_selector": ".didomi-dismiss-button",
-            
-            "segment_element": "main",
 
             "list_element": "section",
             "list_identifier": "h1",
@@ -49,10 +47,8 @@
             "partial_urls": false,
             "iframe_selector": "sp_message_iframe_1117840",
             "button_selector": ".pg-accept-button",
-            
-            "segment_element": "main",
 
-            "list_element": "section",
+            "list_element": "li",
             "list_identifier": "h1",
             "list_identifier_content": "Meest recent",
 
