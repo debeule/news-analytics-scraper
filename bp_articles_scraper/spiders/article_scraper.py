@@ -21,6 +21,7 @@ class ArticleScraper(scrapy.Spider):
         with open('./bp_articles_scraper/organization_config.json', 'r') as file:
             config_file = json.load(file)[str(organization_id)]
             
+        self.structure = config_file['structure']
         self.keywords = config_file['keywords']
         
         self.article = ''
@@ -37,10 +38,15 @@ class ArticleScraper(scrapy.Spider):
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, 'html.parser')
-
+        
         try:
-            authors_div = soup.find('div', class_='c-articlehead__detail__authors')
-            author = 'author: ' + authors_div.find('span').get_text()
+            author_element = soup.find(class_= self.structure['author_class'])
+            
+            if not self.structure['author_element']:
+                author = author_element.get_text()
+
+            if self.structure['author_element']:
+                author = author_element.find(self.structure['author_element']).get_text()
 
             unwanted_elements = (soup.find_all(lambda tag:
                 tag.name and any(keyword in tag.name.lower() for keyword in self.keywords))
@@ -63,10 +69,9 @@ class ArticleScraper(scrapy.Spider):
             for element in unwanted_elements:
                 element.decompose()
 
-            self.article = ''.join(soup.stripped_strings) + author
+            self.article = ''.join(soup.stripped_strings) + '\n author: ' + author
             
         except Exception as e:
             print(e)
-        
         
         return {'result': self.article}
