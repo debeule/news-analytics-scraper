@@ -18,7 +18,11 @@
 
             "article_element": "li",
             "article_title": "a",
-            "article_link_element": "a"
+            "article_link_element": "a",
+
+            "author_class": "c-articlehead__detail__authors__author",
+            "author_element": "span"
+
         },  
               
         "keywords": [
@@ -43,7 +47,7 @@
         "structure": {
             "domain": "www.demorgen.be",
             "partial_urls": false,
-            "iframe_selector": "sp_message_iframe_901951",
+            "iframe_selector": "sp_message_iframe_1117840",
             "button_selector": ".pg-accept-button",
             
             "segment_element": "main",
@@ -54,28 +58,23 @@
 
             "article_element": "li",
             "article_title": "a",
-            "article_link_element": "a"
-        }
-    },
-    "3": {
-        "name": "telegraaf",
-        "url": "https://www.telegraaf.nl/laatstenieuws",
-        "paginated": false,
+            "article_link_element": "a",
 
-        "structure": {
-            "domain": "www.telegraaf.nl",
-            "partial_urls": true,
-            "iframe_selector": "None",
-            "button_selector": ".didomi-dismiss-button",
-            
-            "segment_element": "main",
-
-            "list_identifier": "h1",
-            "list_identifier_content": "Net binnen",
-
-            "article_element": "a",
-            "article_title": "span",
-            "article_link_element": "self"
-        }
+            "author_class": "_1c21mz30 _1c21mz31",
+            "author_element": "a"
+        },
+              
+        "keywords": [
+            "header",
+            "footer",
+            "advertisement",
+            "advertentie",
+            "meest gelezen",
+            "morearticles",
+            "relatedarticleslist",
+            "adcontainer",
+            "c-newsticker",
+            "tijdconnect"
+        ]
     }
 }
