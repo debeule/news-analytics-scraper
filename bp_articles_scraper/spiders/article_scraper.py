@@ -38,9 +38,10 @@ class ArticleScraper(scrapy.Spider):
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, 'html.parser')
+
+        author_element = soup.find(class_= self.structure['author_class'])
         
         try:
-            author_element = soup.find(class_= self.structure['author_class'])
             
             if not self.structure['author_element']:
                 author = author_element.get_text()
