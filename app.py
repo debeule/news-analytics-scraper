@@ -8,9 +8,7 @@ from scrapy import signals
 from scrapyscript import Job, Processor
 from scrapy.utils.project import get_project_settings
 
-
 app = Flask(__name__)
-
 
 @app.route('/api/article_scraper', methods=['POST'])
 def start_article_scraper_spider():
@@ -22,9 +20,8 @@ def start_article_scraper_spider():
         processor = Processor(settings=get_project_settings())
        
         result = processor.run(job)
-        print(result)
 
-        if not result:  raise ValueError('scraping article failed')
+        if result is None or not result:  raise ValueError('scraping article failed')
 
         return jsonify({'response': result}), 200
     
@@ -42,7 +39,7 @@ def start_articles_list_scraper_spider():
 
         result = processor.run(job)
 
-        if not result:  raise ValueError('scraping articlesList failed')
+        if result is None or not result:  raise ValueError('scraping article failed')
         
         return jsonify({'response': result}), 200
     
