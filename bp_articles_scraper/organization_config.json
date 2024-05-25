@@ -53,10 +53,10 @@
             "list_identifier_content": "Meest recent",
 
             "article_element": "li",
-            "article_title": "a",
+            "article_title": "span",
             "article_link_element": "a",
 
-            "author_class": "_1c21mz30 _1c21mz31",
+            "author_class": "_1c21mz30",
             "author_element": "a"
         },
               
