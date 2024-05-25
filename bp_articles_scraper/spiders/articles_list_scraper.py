@@ -60,11 +60,9 @@ class Articleslistscraper(scrapy.Spider):
                 
             try:
                 title_elements = article.find_all(self.structure['article_title'])
-                
-                title = ''
-                
-                for title_element in title_elements:
-                    title = title + title_element.get_text().strip()
+
+                for element in title_elements:
+                    title = title_elements[-1].get_text().strip()
 
                 url_element = article
 
@@ -84,5 +82,5 @@ class Articleslistscraper(scrapy.Spider):
             except Exception as e:
                 print(e)
                 continue
-        
+            
         return self.scraped_data
