@@ -30,7 +30,11 @@ class SeleniumMiddleware:
 
             self.handle_cookie_consent()
         
-        return HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
+        response = HtmlResponse(self.driver.current_url, body=self.driver.page_source, encoding='utf-8', request=request)
+
+        self.driver.quit()
+
+        return response
         
     
     def handle_cookie_consent(self):
